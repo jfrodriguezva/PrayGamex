@@ -195,7 +195,10 @@ public class PaymentService(IPaymentRepository payments, ICatalogRepository cata
         else throw new AppException("Indica GameId o PlanCode.");
 
         await payments.AddAsync(payment, ct);
-        var (prefId, url) = await gateway.CreatePreferenceAsync(payment, user.Email, ct);
+        string prefId, url;
+        try { (prefId, url) = await gateway.CreatePreferenceAsync(payment, user.Email, ct); }
+        catch (Exception e) when (e is HttpRequestException or TimeoutException or InvalidOperationException || e.GetType().Name.Contains("BrokenCircuit") || e.GetType().Name.Contains("Timeout"))
+        { throw new AppException("El servicio de pagos no está disponible por ahora. Intenta más tarde.", 502); }
         await payments.SetPreferenceAsync(payment.Id, prefId, ct);
         return new(payment.Id, prefId, url);
     }
@@ -251,6 +254,33 @@ public partial class AdminService(IAdminRepository admin)
 
     public async Task SetActiveAsync(string slug, bool active, CancellationToken ct)
     { if (!await admin.SetActiveAsync(slug, active, ct)) throw new AppException("Juego no encontrado.", 404); }
+
+    public async Task<IReadOnlyList<AdminUserDto>> UsersAsync(string? q, CancellationToken ct) =>
+        (await admin.ListUsersAsync(string.IsNullOrWhiteSpace(q) ? null : q.Trim(), 200, ct))
+            .Select(x => new AdminUserDto(x.Id, x.Email, x.Name, x.AccountType, x.CreatedAt, x.MembershipPlan, x.MembershipExpiresAt, x.ActiveSessions, x.GrantedGames)).ToList();
+
+    /// <summary>Cambia el tipo de cuenta y cierra las sesiones del usuario para que el rol nuevo (o su pérdida) aplique de inmediato.</summary>
+    public async Task SetAccountTypeAsync(Guid actingUserId, Guid userId, AccountType type, CancellationToken ct)
+    {
+        if (!Enum.IsDefined(type)) throw new AppException("Tipo de cuenta inválido.");
+        if (actingUserId == userId) throw new AppException("No puedes cambiar tu propio tipo de cuenta.");
+        if (!await admin.SetAccountTypeAsync(userId, type, ct)) throw new AppException("Usuario no encontrado.", 404);
+        await admin.RevokeSessionsAsync(userId, ct);
+    }
+
+    public Task RevokeSessionsAsync(Guid userId, CancellationToken ct) => admin.RevokeSessionsAsync(userId, ct);
+
+    public async Task GrantMembershipAsync(Guid userId, int days, CancellationToken ct)
+    {
+        if (days is < 1 or > 3650) throw new AppException("Días debe estar entre 1 y 3650.");
+        if (!await admin.GrantMembershipAsync(userId, days, ct)) throw new AppException("Usuario no encontrado.", 404);
+    }
+
+    public async Task<IReadOnlyList<AdminUserGameDto>> UserGamesAsync(Guid userId, CancellationToken ct) =>
+        (await admin.UserGamesAsync(userId, ct)).Select(g => new AdminUserGameDto(g.GameId, g.Slug, g.Name, g.GrantedAt, g.ExpiresAt)).ToList();
+
+    public async Task RevokeGameAsync(Guid userId, Guid gameId, CancellationToken ct)
+    { if (!await admin.RevokeGameAsync(userId, gameId, ct)) throw new AppException("El usuario no tiene ese permiso.", 404); }
 
     public Task GrantAsync(GrantRequest r, CancellationToken ct)
     {

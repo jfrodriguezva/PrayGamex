@@ -23,7 +23,9 @@ export function GameCard({ game, onChange }: { game: Game; onChange?: () => void
   };
   return (
     <article className="card">
-      <img src={game.iconUrl} alt="" width={56} height={56} />
+      {game.iconUrl.startsWith('emoji:')
+        ? <span className="emoji" aria-hidden>{game.iconUrl.slice(6)}</span>
+        : <img src={game.iconUrl} alt="" width={56} height={56} />}
       <div className="grow">
         <h3>{game.name}</h3>
         <small>{game.categoryName} · {priceLabel(game)}</small>

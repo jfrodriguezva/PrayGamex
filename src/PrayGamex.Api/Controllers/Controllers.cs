@@ -96,6 +96,14 @@ public class AdminController(AdminService admin) : ControllerBase
     [HttpGet("games")] public Task<IReadOnlyList<AdminGameDto>> Games(CancellationToken ct) => admin.ListAsync(ct);
     [HttpPut("games")] public async Task<IActionResult> Upsert(UpsertGameRequest r, CancellationToken ct) { await admin.UpsertAsync(r, ct); return NoContent(); }
     [HttpPost("games/{slug}/active")] public async Task<IActionResult> Active(string slug, ActiveRequest r, CancellationToken ct) { await admin.SetActiveAsync(slug, r.IsActive, ct); return NoContent(); }
+    [HttpGet("users")] public Task<IReadOnlyList<AdminUserDto>> Users([FromQuery] string? q, CancellationToken ct) => admin.UsersAsync(q, ct);
+    [HttpPost("users/{id:guid}/account-type")]
+    public async Task<IActionResult> AccountType(Guid id, AccountTypeRequest r, CancellationToken ct)
+    { await admin.SetAccountTypeAsync(Guid.Parse(User.FindFirstValue("sub")!), id, r.AccountType, ct); return NoContent(); }
+    [HttpPost("users/{id:guid}/revoke-sessions")] public async Task<IActionResult> RevokeSessions(Guid id, CancellationToken ct) { await admin.RevokeSessionsAsync(id, ct); return NoContent(); }
+    [HttpPost("users/{id:guid}/membership")] public async Task<IActionResult> Membership(Guid id, MembershipRequest r, CancellationToken ct) { await admin.GrantMembershipAsync(id, r.Days, ct); return NoContent(); }
+    [HttpGet("users/{id:guid}/games")] public Task<IReadOnlyList<AdminUserGameDto>> UserGames(Guid id, CancellationToken ct) => admin.UserGamesAsync(id, ct);
+    [HttpDelete("users/{id:guid}/games/{gameId:guid}")] public async Task<IActionResult> RevokeGame(Guid id, Guid gameId, CancellationToken ct) { await admin.RevokeGameAsync(id, gameId, ct); return NoContent(); }
     [HttpPost("grants")] public async Task<IActionResult> Grant(GrantRequest r, CancellationToken ct) { await admin.GrantAsync(r, ct); return NoContent(); }
 }
 

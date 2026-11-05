@@ -208,3 +208,55 @@ public class AdminServiceTests
     [Fact] public async Task Non_http_url_is_rejected() => await Assert.ThrowsAsync<AppException>(() => admin.UpsertAsync(Req(url: "javascript:alert(1)"), default));
     [Fact] public async Task Valid_request_passes() => await admin.UpsertAsync(Req(), default);
 }
+
+public class AdminUsersTests
+{
+    private readonly IAdminRepository repo = Substitute.For<IAdminRepository>();
+    private readonly AdminService admin;
+    public AdminUsersTests() => admin = new AdminService(repo);
+
+    [Fact]
+    public async Task Admin_cannot_change_own_account_type()
+    {
+        var me = Guid.NewGuid();
+        var ex = await Assert.ThrowsAsync<AppException>(() => admin.SetAccountTypeAsync(me, me, AccountType.Free, default));
+        Assert.Equal(400, ex.Status);
+        await repo.DidNotReceiveWithAnyArgs().SetAccountTypeAsync(default, default, default);
+    }
+
+    [Fact]
+    public async Task Changing_account_type_closes_target_sessions()
+    {
+        var target = Guid.NewGuid();
+        repo.SetAccountTypeAsync(target, AccountType.Admin, Arg.Any<CancellationToken>()).Returns(true);
+        await admin.SetAccountTypeAsync(Guid.NewGuid(), target, AccountType.Admin, default);
+        await repo.Received(1).RevokeSessionsAsync(target, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Unknown_user_is_404_and_invalid_type_is_400()
+    {
+        repo.SetAccountTypeAsync(Arg.Any<Guid>(), Arg.Any<AccountType>(), Arg.Any<CancellationToken>()).Returns(false);
+        Assert.Equal(404, (await Assert.ThrowsAsync<AppException>(() => admin.SetAccountTypeAsync(Guid.NewGuid(), Guid.NewGuid(), AccountType.Premium, default))).Status);
+        Assert.Equal(400, (await Assert.ThrowsAsync<AppException>(() => admin.SetAccountTypeAsync(Guid.NewGuid(), Guid.NewGuid(), (AccountType)99, default))).Status);
+    }
+
+    [Fact]
+    public async Task Revoking_missing_permission_is_404()
+    {
+        repo.RevokeGameAsync(Arg.Any<Guid>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
+        Assert.Equal(404, (await Assert.ThrowsAsync<AppException>(() => admin.RevokeGameAsync(Guid.NewGuid(), Guid.NewGuid(), default))).Status);
+    }
+
+    [Theory]
+    [InlineData(0)] [InlineData(-5)] [InlineData(4000)]
+    public async Task Manual_membership_rejects_invalid_days(int days) =>
+        Assert.Equal(400, (await Assert.ThrowsAsync<AppException>(() => admin.GrantMembershipAsync(Guid.NewGuid(), days, default))).Status);
+
+    [Fact]
+    public async Task Manual_membership_for_unknown_user_is_404()
+    {
+        repo.GrantMembershipAsync(Arg.Any<Guid>(), 30, Arg.Any<CancellationToken>()).Returns(false);
+        Assert.Equal(404, (await Assert.ThrowsAsync<AppException>(() => admin.GrantMembershipAsync(Guid.NewGuid(), 30, default))).Status);
+    }
+}

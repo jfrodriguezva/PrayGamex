@@ -24,6 +24,14 @@ web/                        SPA React (menú distinto para móvil, tablet y PC)
   funcionar en el siguiente request y su refresh token se revoca. Un refresh token reutilizado cierra su sesión.
 - **Membresías** (`MembershipPlans`, precios en BD): dan acceso a todos los juegos Pro mientras estén vigentes.
 
+## Catálogo inicial (sembrado al crear la BD)
+- **99 juegos de Arcade** (demo, abiertos) en 5 categorías: Mesa, Tradición, Arcade, Mente y Niños. URL de prueba:
+  `https://jfrodriguezva.github.io/Arcade/demo/?juego=<nombre>` (el Arcade ya entiende `?juego=`).
+- **3 de Uapeani** (Mictlania, Uapeania, UapeaniBot), Pro y solo por suscripción hasta que les pongas precio:
+  `https://jfrodriguezva.github.io/Uapeani/demo/?juego=<nombre>`.
+- Origen: `src/PrayGamex.Infrastructure/Persistence/catalogo.json`. Cuando exista el servidor de juegos, cambia las URLs desde `/admin`
+  (o `Games:ArcadeBaseUrl` / `Games:UapeaniBaseUrl` antes de crear la BD). Los juegos sembrados no se agregan al submenú lateral (son 100+).
+
 ## Alta de un juego desde BD (precio + URL + menú)
 ```sql
 -- Demo (abierto)
@@ -39,7 +47,11 @@ EXEC dbo.usp_GrantGame @Email='usuario@correo.com', @Slug='mi-pro', @Days=NULL;
 ## Administración
 - Hacer admin a un usuario: `EXEC dbo.usp_SetAccountType @Email='yo@correo.com', @AccountType=2;` (vuelve a iniciar sesión). En la web aparece
   el enlace **Administración** en *Perfil*: alta/edición de juegos (URL, demo/pro, precio, días), activar/desactivar y permisos por usuario.
-- API: `GET/PUT /api/admin/games`, `POST /api/admin/games/{slug}/active`, `POST /api/admin/grants` (rol Admin).
+- **Juegos y precios:** cada fila trae Pro sí/no, precio y días de acceso con su botón Guardar; hay búsqueda y filtros por categoría y tipo.
+- **Usuarios:** lista con búsqueda, tipo de cuenta (cambiarlo cierra sus sesiones), membresía, sesiones activas y permisos por juego (ver y revocar),
+  **Dar membresía** manual por N días y **Cerrar sesiones**. No puedes cambiar tu propio tipo de cuenta.
+- API: `GET/PUT /api/admin/games`, `GET /api/admin/users?q=`, `POST /api/admin/users/{id}/account-type|membership|revoke-sessions`, `GET /api/admin/users/{id}/games`, `DELETE /api/admin/users/{id}/games/{gameId}`,
+  `GET/PUT /api/admin/games`, `POST /api/admin/games/{slug}/active`, `POST /api/admin/grants` (rol Admin).
 
 ## Cómo un juego (servidor externo) valida al jugador
 `POST /api/games/{id}/launch` valida el permiso y devuelve la URL del juego con `?pgt=<token>` (JWT de 4 h, audiencia propia, solo válido para ese juego).
@@ -76,7 +88,7 @@ cd web && npm install && npm run dev        # http://localhost:5173 (proxy a :50
 ```
 
 ## Pruebas
-`dotnet test tests/PrayGamex.Tests` (20 pruebas: seguridad, sesiones, acceso demo/pro, webhook de pago, validación de admin). CI en `.github/workflows/ci.yml`.
+`dotnet test tests/PrayGamex.Tests` (28 pruebas: seguridad, sesiones, acceso demo/pro, webhook de pago, validación de admin). CI en `.github/workflows/ci.yml`.
 
 ## Pendiente (depende de ti)
 - Registrar los juegos reales de Arcade/Uapeani desde el panel o con `usp_AddGame` (hay 2 de ejemplo sembrados).

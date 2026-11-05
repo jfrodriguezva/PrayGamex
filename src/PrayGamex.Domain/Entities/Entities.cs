@@ -64,6 +64,29 @@ public class Game
     public bool FeaturedToday { get; set; }
 }
 
+/// <summary>Usuario tal como lo ve el administrador (con membresía, sesiones y permisos por juego).</summary>
+public class AdminUserRow
+{
+    public Guid Id { get; set; }
+    public string Email { get; set; } = "";
+    public string Name { get; set; } = "";
+    public AccountType AccountType { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public string? MembershipPlan { get; set; }
+    public DateTime? MembershipExpiresAt { get; set; }
+    public int ActiveSessions { get; set; }
+    public int GrantedGames { get; set; }
+}
+
+public class AdminUserGameRow
+{
+    public Guid GameId { get; set; }
+    public string Slug { get; set; } = "";
+    public string Name { get; set; } = "";
+    public DateTime GrantedAt { get; set; }
+    public DateTime? ExpiresAt { get; set; }
+}
+
 /// <summary>Juego tal como lo ve el administrador (incluye inactivos y el slug de categoría).</summary>
 public class AdminGameRow : Game { public string CategorySlug { get; set; } = ""; }
 

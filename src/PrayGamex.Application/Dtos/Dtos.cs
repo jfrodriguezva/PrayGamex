@@ -32,3 +32,8 @@ public record ActiveRequest(bool IsActive);
 public record LaunchResponse(string Url);
 public record VerifyRequest(string Token);
 public record VerifyResponse(bool Valid, Guid? UserId, Guid? GameId);
+public record AdminUserDto(Guid Id, string Email, string Name, AccountType AccountType, DateTime CreatedAt,
+    string? MembershipPlan, DateTime? MembershipExpiresAt, int ActiveSessions, int GrantedGames);
+public record AdminUserGameDto(Guid GameId, string Slug, string Name, DateTime GrantedAt, DateTime? ExpiresAt);
+public record AccountTypeRequest(AccountType AccountType);
+public record MembershipRequest(int Days);

@@ -305,6 +305,61 @@ public class AdminRepository(ISqlConnectionFactory f) : IAdminRepository
         return await c.ExecuteScalarAsync<int>(Sql.Cmd("SELECT COUNT(1) FROM Games WHERE Slug=@slug", new { slug }, ct)) > 0;
     }
 
+    private static string Like(string s) => "%" + s.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_").Replace("[", "\\[") + "%";
+
+    public async Task<IReadOnlyList<AdminUserRow>> ListUsersAsync(string? q, int take, CancellationToken ct)
+    {
+        await using var c = await f.OpenAsync(ct);
+        return (await c.QueryAsync<AdminUserRow>(Sql.Cmd("""
+            SELECT TOP (@take) u.Id, u.Email, u.Name, u.AccountType, u.CreatedAt,
+                   m.[Plan] AS MembershipPlan, m.ExpiresAt AS MembershipExpiresAt,
+                   (SELECT COUNT(1) FROM Sessions s WHERE s.UserId=u.Id AND s.RevokedAt IS NULL AND s.ExpiresAt>SYSUTCDATETIME()) AS ActiveSessions,
+                   (SELECT COUNT(1) FROM UserGames ug WHERE ug.UserId=u.Id AND (ug.ExpiresAt IS NULL OR ug.ExpiresAt>SYSUTCDATETIME())) AS GrantedGames
+            FROM Users u LEFT JOIN Memberships m ON m.UserId=u.Id
+            WHERE @q IS NULL OR u.Email LIKE @q ESCAPE '\' OR u.Name LIKE @q ESCAPE '\'
+            ORDER BY u.CreatedAt DESC
+            """, new { take, q = q is null ? null : Like(q) }, ct))).ToList();
+    }
+
+    public async Task<bool> SetAccountTypeAsync(Guid userId, AccountType type, CancellationToken ct)
+    { await using var c = await f.OpenAsync(ct); return await c.ExecuteAsync(Sql.Cmd("UPDATE Users SET AccountType=@t WHERE Id=@userId", new { userId, t = (int)type }, ct)) > 0; }
+
+    public async Task RevokeSessionsAsync(Guid userId, CancellationToken ct)
+    {
+        await using var c = await f.OpenAsync(ct);
+        await c.ExecuteAsync(Sql.Cmd("""
+            UPDATE Sessions SET RevokedAt=SYSUTCDATETIME() WHERE UserId=@userId AND RevokedAt IS NULL;
+            UPDATE RefreshTokens SET RevokedAt=SYSUTCDATETIME() WHERE UserId=@userId AND RevokedAt IS NULL;
+            """, new { userId }, ct));
+    }
+
+    public async Task<bool> GrantMembershipAsync(Guid userId, int days, CancellationToken ct)
+    {
+        await using var c = await f.OpenAsync(ct);
+        if (await c.ExecuteScalarAsync<int>(Sql.Cmd("SELECT COUNT(1) FROM Users WHERE Id=@userId", new { userId }, ct)) == 0) return false;
+        await c.ExecuteAsync(Sql.Cmd("""
+            DECLARE @now DATETIME2 = SYSUTCDATETIME();
+            UPDATE Memberships SET [Plan]='manual', StartsAt=@now,
+                   ExpiresAt=DATEADD(DAY,@days, CASE WHEN ExpiresAt>@now THEN ExpiresAt ELSE @now END) WHERE UserId=@userId;
+            IF @@ROWCOUNT=0
+                INSERT Memberships(Id,UserId,[Plan],StartsAt,ExpiresAt) VALUES(NEWID(),@userId,'manual',@now,DATEADD(DAY,@days,@now));
+            UPDATE Users SET AccountType=1 WHERE Id=@userId AND AccountType=0;
+            """, new { userId, days }, ct));
+        return true;
+    }
+
+    public async Task<IReadOnlyList<AdminUserGameRow>> UserGamesAsync(Guid userId, CancellationToken ct)
+    {
+        await using var c = await f.OpenAsync(ct);
+        return (await c.QueryAsync<AdminUserGameRow>(Sql.Cmd("""
+            SELECT g.Id AS GameId, g.Slug, g.Name, ug.GrantedAt, ug.ExpiresAt
+            FROM UserGames ug JOIN Games g ON g.Id=ug.GameId WHERE ug.UserId=@userId ORDER BY g.Name
+            """, new { userId }, ct))).ToList();
+    }
+
+    public async Task<bool> RevokeGameAsync(Guid userId, Guid gameId, CancellationToken ct)
+    { await using var c = await f.OpenAsync(ct); return await c.ExecuteAsync(Sql.Cmd("DELETE FROM UserGames WHERE UserId=@userId AND GameId=@gameId", new { userId, gameId }, ct)) > 0; }
+
     public async Task GrantAsync(string email, string slug, int? days, CancellationToken ct)
     {
         await using var c = await f.OpenAsync(ct);

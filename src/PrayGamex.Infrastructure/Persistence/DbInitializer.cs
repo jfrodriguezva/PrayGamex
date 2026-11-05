@@ -29,15 +29,16 @@ public static class DbInitializer
             await c.ExecuteAsync(Schema.AddGameProc);
             await c.ExecuteAsync(Schema.GrantGameProc);
             await c.ExecuteAsync(Schema.SetAccountTypeProc);
-            await SeedAsync(c);
+            await SeedAsync(c, cfg);
         }, ct);
     }
 
-    private static async Task SeedAsync(SqlConnection c)
+    private static async Task SeedAsync(SqlConnection c, IConfiguration cfg)
     {
+        var catalog = LoadCatalog();
         if (await c.ExecuteScalarAsync<int>("SELECT COUNT(1) FROM Categories") == 0)
-            foreach (var (name, slug, i) in new[] { ("Arcade", "arcade", 0), ("Puzzle", "puzzle", 1), ("Aventura", "aventura", 2), ("Estrategia", "estrategia", 3) })
-                await c.ExecuteAsync("INSERT Categories(Id,Name,Slug,[Order]) VALUES(NEWID(),@name,@slug,@i)", new { name, slug, i });
+            foreach (var cat in catalog.Categories)
+                await c.ExecuteAsync("INSERT Categories(Id,Name,Slug,[Order]) VALUES(NEWID(),@Name,@Slug,@Order)", cat);
 
         if (await c.ExecuteScalarAsync<int>("SELECT COUNT(1) FROM MembershipPlans") == 0)
             await c.ExecuteAsync("""
@@ -66,16 +67,29 @@ public static class DbInitializer
 
         if (await c.ExecuteScalarAsync<int>("SELECT COUNT(1) FROM Games") == 0)
         {
-            // Ejemplos: los juegos reales viven en otros servidores (Arcade / Uapeani); aquí solo se registra su metadato y su precio.
-            await c.ExecuteAsync("dbo.usp_AddGame", new { Name = "Arcade Demo", Slug = "arcade-demo", Description = "Juego de ejemplo de Arcade", IconUrl = "/icons/arcade.svg",
-                LaunchUrl = "https://games.example.com/arcade-demo", CategorySlug = "arcade", IsPro = false, Price = 0m, FeaturedToday = true }, commandType: System.Data.CommandType.StoredProcedure);
-            await c.ExecuteAsync("dbo.usp_AddGame", new { Name = "Uapeani Puzzle", Slug = "uapeani-puzzle", Description = "Puzzle de Uapeani", IconUrl = "/icons/puzzle.svg",
-                LaunchUrl = "https://games.example.com/uapeani-puzzle", CategorySlug = "puzzle", IsPro = true, Price = 49m, AccessDays = (int?)30 }, commandType: System.Data.CommandType.StoredProcedure);
-            await c.ExecuteAsync("""
-                INSERT Challenges(Id,GameId,Title,Detail,Points) SELECT NEWID(), Id, 'Primer nivel', 'Completa el nivel 1 sin perder vidas', 100 FROM Games WHERE Slug='arcade-demo';
-                INSERT Challenges(Id,GameId,Title,Detail,Points) SELECT NEWID(), Id, 'Sin pistas', 'Resuelve 5 puzzles sin usar pistas', 250 FROM Games WHERE Slug='uapeani-puzzle';
-                """);
+            // Catálogo real: Arcade (demo, abiertos) y Uapeani (Pro, por ahora solo suscripción hasta fijar precio desde /admin).
+            // URLs de prueba en GitHub Pages; cambiarlas desde /admin cuando exista el servidor de juegos (Games:ArcadeBaseUrl / Games:UapeaniBaseUrl).
+            var arcadeBase = cfg["Games:ArcadeBaseUrl"] ?? "https://jfrodriguezva.github.io/Arcade/demo/";
+            var uapeaniBase = cfg["Games:UapeaniBaseUrl"] ?? "https://jfrodriguezva.github.io/Uapeani/demo/";
+            foreach (var g in catalog.Games)
+                await c.ExecuteAsync("dbo.usp_AddGame", new
+                {
+                    Name = g.Name, Slug = g.Slug, Description = "", IconUrl = "emoji:" + g.Icon,
+                    LaunchUrl = (g.Family == "uapeani" ? uapeaniBase : arcadeBase) + "?juego=" + Uri.EscapeDataString(g.PublicName),
+                    CategorySlug = g.Category, IsPro = g.Pro, Price = 0m, AddToMenu = false, // 100+ juegos: no se llena el menú lateral
+                }, commandType: System.Data.CommandType.StoredProcedure);
         }
+    }
+
+    private record CatalogCategory(string Slug, string Name, int Order);
+    private record CatalogGame(string Name, string Slug, string PublicName, string Category, string Icon, string Family, bool Pro);
+    private record CatalogFile(List<CatalogCategory> Categories, List<CatalogGame> Games);
+
+    private static CatalogFile LoadCatalog()
+    {
+        using var s = typeof(DbInitializer).Assembly.GetManifestResourceStream("PrayGamex.Infrastructure.Persistence.catalogo.json")
+            ?? throw new InvalidOperationException("Falta el recurso catalogo.json.");
+        return System.Text.Json.JsonSerializer.Deserialize<CatalogFile>(s, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
     }
 
     private static async Task<Guid> Item(SqlConnection c, DeviceType d, Guid? parent, string key, string label, string icon, string route, int order)

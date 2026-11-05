@@ -8,6 +8,8 @@ export interface Plan { code: string; name: string; price: number; currency: str
 export interface Challenge { id: string; gameId: string; gameName: string; title: string; detail: string; points: number }
 export interface MenuItem { key: string; label: string; icon: string; route: string; order: number; children: MenuItem[] }
 export interface AdminGame { id: string; name: string; slug: string; launchUrl: string; categorySlug: string; description: string; iconUrl: string; isPro: boolean; price: number; currency: string; accessDays: number | null; isActive: boolean; featuredToday: boolean }
+export interface AdminUser { id: string; email: string; name: string; accountType: AccountType; createdAt: string; membershipPlan: string | null; membershipExpiresAt: string | null; activeSessions: number; grantedGames: number }
+export interface AdminUserGame { gameId: string; slug: string; name: string; grantedAt: string; expiresAt: string | null }
 export type Device = 'mobile' | 'tablet' | 'desktop';
 
 const BASE = import.meta.env.VITE_API_URL ?? '/api';
@@ -45,6 +47,7 @@ async function request<T>(path: string, init: RequestInit = {}, retry = true): P
   return res.status === 204 ? (undefined as T) : res.json();
 }
 const put = <T>(p: string, b: unknown) => request<T>(p, { method: 'PUT', body: JSON.stringify(b) });
+const del = <T>(p: string) => request<T>(p, { method: 'DELETE' });
 const post = <T>(p: string, b?: unknown) => request<T>(p, { method: 'POST', body: b ? JSON.stringify(b) : undefined });
 
 export const api = {
@@ -67,6 +70,12 @@ export const api = {
   adminSave: (g: Omit<AdminGame, 'id' | 'isActive'> & { addToMenu: boolean }) => put<void>('/admin/games', g),
   adminActive: (slug: string, isActive: boolean) => post<void>(`/admin/games/${slug}/active`, { isActive }),
   adminGrant: (email: string, slug: string, days: number | null) => post<void>('/admin/grants', { email, slug, days }),
+  adminUsers: (q?: string) => request<AdminUser[]>(`/admin/users${q ? `?q=${encodeURIComponent(q)}` : ''}`),
+  adminAccountType: (id: string, accountType: AccountType) => post<void>(`/admin/users/${id}/account-type`, { accountType }),
+  adminMembership: (id: string, days: number) => post<void>(`/admin/users/${id}/membership`, { days }),
+  adminRevokeSessions: (id: string) => post<void>(`/admin/users/${id}/revoke-sessions`),
+  adminUserGames: (id: string) => request<AdminUserGame[]>(`/admin/users/${id}/games`),
+  adminRevokeGame: (id: string, gameId: string) => del<void>(`/admin/users/${id}/games/${gameId}`),
   plans: () => request<Plan[]>('/payments/plans'),
   buyGame: (gameId: string) => post<{ checkoutUrl: string }>('/payments/checkout', { gameId }),
   buyPlan: (planCode: string) => post<{ checkoutUrl: string }>('/payments/checkout', { planCode }),

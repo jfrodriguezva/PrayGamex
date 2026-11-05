@@ -59,6 +59,13 @@ public interface IAdminRepository
     Task UpsertGameAsync(UpsertGame g, CancellationToken ct);
     Task<bool> SetActiveAsync(string slug, bool active, CancellationToken ct);
     Task GrantAsync(string email, string slug, int? days, CancellationToken ct);
+    Task<IReadOnlyList<AdminUserRow>> ListUsersAsync(string? q, int take, CancellationToken ct);
+    Task<bool> SetAccountTypeAsync(Guid userId, AccountType type, CancellationToken ct);
+    Task RevokeSessionsAsync(Guid userId, CancellationToken ct);
+    /// <summary>Otorga/extiende una membresía manual (sin cobro) y promueve la cuenta Gratuita a Premium.</summary>
+    Task<bool> GrantMembershipAsync(Guid userId, int days, CancellationToken ct);
+    Task<IReadOnlyList<AdminUserGameRow>> UserGamesAsync(Guid userId, CancellationToken ct);
+    Task<bool> RevokeGameAsync(Guid userId, Guid gameId, CancellationToken ct);
 }
 
 public record UpsertGame(string Name, string Slug, string LaunchUrl, string CategorySlug, string Description, string IconUrl,

@@ -1,0 +1,954 @@
+{
+ "categories": [
+  {
+   "slug": "mesa",
+   "name": "Mesa",
+   "order": 0
+  },
+  {
+   "slug": "tradicion",
+   "name": "Tradición",
+   "order": 1
+  },
+  {
+   "slug": "arcade",
+   "name": "Arcade",
+   "order": 2
+  },
+  {
+   "slug": "mente",
+   "name": "Mente",
+   "order": 3
+  },
+  {
+   "slug": "ninos",
+   "name": "Niños",
+   "order": 4
+  },
+  {
+   "slug": "uapeani",
+   "name": "Uapeani",
+   "order": 5
+  }
+ ],
+ "games": [
+  {
+   "name": "Gato",
+   "slug": "gato",
+   "publicName": "gato",
+   "category": "mesa",
+   "icon": "❌",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Cuatro en Línea",
+   "slug": "cuatro-en-linea",
+   "publicName": "cuatro_en_linea",
+   "category": "mesa",
+   "icon": "🔴",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Reversi",
+   "slug": "reversi",
+   "publicName": "reversi",
+   "category": "mesa",
+   "icon": "⚫",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Batalla Naval",
+   "slug": "batalla-naval",
+   "publicName": "batalla_naval",
+   "category": "mesa",
+   "icon": "🚢",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Caras Secretas",
+   "slug": "caras-secretas",
+   "publicName": "caras_secretas",
+   "category": "mesa",
+   "icon": "🕵️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Damas",
+   "slug": "damas",
+   "publicName": "damas",
+   "category": "tradicion",
+   "icon": "👑",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Damas Chinas",
+   "slug": "damas-chinas",
+   "publicName": "damas_chinas",
+   "category": "mesa",
+   "icon": "🔯",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Ajedrez",
+   "slug": "ajedrez",
+   "publicName": "ajedrez",
+   "category": "mesa",
+   "icon": "♟️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Imperios",
+   "slug": "imperios",
+   "publicName": "imperios",
+   "category": "mesa",
+   "icon": "🏛",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Backgammon",
+   "slug": "backgammon",
+   "publicName": "backgammon",
+   "category": "mesa",
+   "icon": "🎲",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Dominó",
+   "slug": "domino",
+   "publicName": "domino",
+   "category": "tradicion",
+   "icon": "🁫",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Lotería",
+   "slug": "loteria",
+   "publicName": "loteria",
+   "category": "tradicion",
+   "icon": "🐓",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Pirinola",
+   "slug": "pirinola",
+   "publicName": "pirinola",
+   "category": "tradicion",
+   "icon": "🪀",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Patolli",
+   "slug": "patolli",
+   "publicName": "patolli",
+   "category": "tradicion",
+   "icon": "🌞",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Coyote y gallinas",
+   "slug": "coyote-y-gallinas",
+   "publicName": "coyote_y_gallinas",
+   "category": "tradicion",
+   "icon": "🐔",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Parchís",
+   "slug": "parchis",
+   "publicName": "parchis",
+   "category": "tradicion",
+   "icon": "🎲",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Mancala",
+   "slug": "mancala",
+   "publicName": "mancala",
+   "category": "mesa",
+   "icon": "🌰",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Serpientes y Escaleras",
+   "slug": "serpientes-y-escaleras",
+   "publicName": "serpientes_y_escaleras",
+   "category": "tradicion",
+   "icon": "🐍",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Billar",
+   "slug": "billar",
+   "publicName": "billar",
+   "category": "arcade",
+   "icon": "🎱",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Poleana",
+   "slug": "poleana",
+   "publicName": "poleana",
+   "category": "tradicion",
+   "icon": "⛓️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Cubilete",
+   "slug": "cubilete",
+   "publicName": "cubilete",
+   "category": "tradicion",
+   "icon": "🎲",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Bienes Raíces",
+   "slug": "bienes-raices",
+   "publicName": "bienes_raices",
+   "category": "mesa",
+   "icon": "🏘",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "UnaCarta",
+   "slug": "unacarta",
+   "publicName": "unacarta",
+   "category": "tradicion",
+   "icon": "🌈",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Blackjack",
+   "slug": "blackjack",
+   "publicName": "blackjack",
+   "category": "tradicion",
+   "icon": "🂡",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Conquián",
+   "slug": "conquian",
+   "publicName": "conquian",
+   "category": "tradicion",
+   "icon": "🂠",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Siete y medio",
+   "slug": "siete-y-medio",
+   "publicName": "siete_y_medio",
+   "category": "tradicion",
+   "icon": "🍷",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Brisca",
+   "slug": "brisca",
+   "publicName": "brisca",
+   "category": "tradicion",
+   "icon": "⚔️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Canasta",
+   "slug": "canasta",
+   "publicName": "canasta",
+   "category": "tradicion",
+   "icon": "🧺",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Periquito toma agua",
+   "slug": "periquito",
+   "publicName": "periquito",
+   "category": "tradicion",
+   "icon": "🦜",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Escoba",
+   "slug": "escoba",
+   "publicName": "escoba",
+   "category": "tradicion",
+   "icon": "🧹",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Cinquillo",
+   "slug": "cinquillo",
+   "publicName": "cinquillo",
+   "category": "tradicion",
+   "icon": "5️⃣",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Burro castigado",
+   "slug": "burro",
+   "publicName": "burro",
+   "category": "tradicion",
+   "icon": "🫏",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Rummy",
+   "slug": "rummy",
+   "publicName": "rummy",
+   "category": "mesa",
+   "icon": "🃏",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Bridge",
+   "slug": "bridge",
+   "publicName": "bridge",
+   "category": "mesa",
+   "icon": "♠️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Corazones",
+   "slug": "corazones",
+   "publicName": "corazones",
+   "category": "mesa",
+   "icon": "♥️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Póker",
+   "slug": "poker",
+   "publicName": "poker",
+   "category": "tradicion",
+   "icon": "🃏",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Solitario",
+   "slug": "solitario",
+   "publicName": "solitario",
+   "category": "mente",
+   "icon": "🃏",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Solitario Araña",
+   "slug": "solitario-arana",
+   "publicName": "solitario_arana",
+   "category": "mente",
+   "icon": "🕷️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Carta Blanca",
+   "slug": "carta-blanca",
+   "publicName": "carta_blanca",
+   "category": "mente",
+   "icon": "🂡",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "TriPeaks",
+   "slug": "tripeaks",
+   "publicName": "tripeaks",
+   "category": "mente",
+   "icon": "⛰",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Mahjong",
+   "slug": "mahjong",
+   "publicName": "mahjong",
+   "category": "mente",
+   "icon": "🀄",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Pirámide",
+   "slug": "piramide",
+   "publicName": "piramide",
+   "category": "mente",
+   "icon": "🔺",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Parejas",
+   "slug": "parejas",
+   "publicName": "parejas",
+   "category": "tradicion",
+   "icon": "🧠",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Bloques de Color",
+   "slug": "bloques-de-color",
+   "publicName": "bloques_de_color",
+   "category": "mente",
+   "icon": "🟧",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Gatoku",
+   "slug": "gatoku",
+   "publicName": "gatoku",
+   "category": "mente",
+   "icon": "🐱",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Pueblo Viajero",
+   "slug": "pueblo-viajero",
+   "publicName": "pueblo_viajero",
+   "category": "mente",
+   "icon": "🧳",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Sudoku",
+   "slug": "sudoku",
+   "publicName": "sudoku",
+   "category": "mente",
+   "icon": "🔢",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Rompemuros",
+   "slug": "rompemuros",
+   "publicName": "rompemuros",
+   "category": "arcade",
+   "icon": "🧱",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Bloques",
+   "slug": "bloques",
+   "publicName": "bloques",
+   "category": "arcade",
+   "icon": "🟦",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Meteoros",
+   "slug": "meteoros",
+   "publicName": "meteoros",
+   "category": "arcade",
+   "icon": "☄️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Invasión Espacial",
+   "slug": "invasion-espacial",
+   "publicName": "invasion_espacial",
+   "category": "arcade",
+   "icon": "👾",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Caza en el Laberinto",
+   "slug": "caza-en-el-laberinto",
+   "publicName": "caza_en_el_laberinto",
+   "category": "arcade",
+   "icon": "👻",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Laberinto de Bombas",
+   "slug": "laberinto-de-bombas",
+   "publicName": "laberinto_de_bombas",
+   "category": "arcade",
+   "icon": "💣",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Revela el Paisaje",
+   "slug": "revela-el-paisaje",
+   "publicName": "revela_el_paisaje",
+   "category": "arcade",
+   "icon": "🏞️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Guerra de Nieve",
+   "slug": "guerra-de-nieve",
+   "publicName": "guerra_de_nieve",
+   "category": "arcade",
+   "icon": "❄️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Ecos",
+   "slug": "ecos",
+   "publicName": "ecos",
+   "category": "mente",
+   "icon": "⏳",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Lazo y Burbujas",
+   "slug": "burbujas",
+   "publicName": "burbujas",
+   "category": "arcade",
+   "icon": "🎈",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Matatena",
+   "slug": "matatena",
+   "publicName": "matatena",
+   "category": "tradicion",
+   "icon": "✴️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Rayuela",
+   "slug": "rayuela",
+   "publicName": "rayuela",
+   "category": "tradicion",
+   "icon": "🪨",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Boliche",
+   "slug": "boliche",
+   "publicName": "boliche",
+   "category": "arcade",
+   "icon": "🎳",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Tenis",
+   "slug": "tenis",
+   "publicName": "tenis",
+   "category": "arcade",
+   "icon": "🎾",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Hockey de mesa",
+   "slug": "hockey",
+   "publicName": "hockey",
+   "category": "arcade",
+   "icon": "🏒",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Viborita",
+   "slug": "viborita",
+   "publicName": "viborita",
+   "category": "arcade",
+   "icon": "🐍",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Dino Corredor",
+   "slug": "dino-corredor",
+   "publicName": "dino_corredor",
+   "category": "arcade",
+   "icon": "🦖",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Dulce Fiesta",
+   "slug": "dulce-fiesta",
+   "publicName": "dulce_fiesta",
+   "category": "mente",
+   "icon": "🍬",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Bloques Bum",
+   "slug": "bloques-bum",
+   "publicName": "bloques_bum",
+   "category": "mente",
+   "icon": "💥",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Desliza",
+   "slug": "desliza",
+   "publicName": "desliza",
+   "category": "mente",
+   "icon": "🔀",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Nonogramas",
+   "slug": "nonogramas",
+   "publicName": "nonogramas",
+   "category": "mente",
+   "icon": "🖼",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Une Colores",
+   "slug": "une-colores",
+   "publicName": "une_colores",
+   "category": "mente",
+   "icon": "🎨",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Crucigramas",
+   "slug": "crucigramas",
+   "publicName": "crucigramas",
+   "category": "mente",
+   "icon": "✏️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Anagramas",
+   "slug": "anagramas",
+   "publicName": "anagramas",
+   "category": "mente",
+   "icon": "🔤",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Ahorcado",
+   "slug": "ahorcado",
+   "publicName": "ahorcado",
+   "category": "mente",
+   "icon": "🪢",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Basta",
+   "slug": "basta",
+   "publicName": "basta",
+   "category": "mente",
+   "icon": "✋",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Kakuro",
+   "slug": "kakuro",
+   "publicName": "kakuro",
+   "category": "mente",
+   "icon": "➕",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Ordena Colores",
+   "slug": "ordena-colores",
+   "publicName": "ordena_colores",
+   "category": "mente",
+   "icon": "🧪",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "2048",
+   "slug": "2048",
+   "publicName": "2048",
+   "category": "mente",
+   "icon": "🧮",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Sopa de letras",
+   "slug": "sopa-letras",
+   "publicName": "sopa_letras",
+   "category": "mente",
+   "icon": "🔤",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Triple Fichas",
+   "slug": "triple-fichas",
+   "publicName": "triple_fichas",
+   "category": "mente",
+   "icon": "🎴",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "¿Dónde está?",
+   "slug": "donde-esta",
+   "publicName": "donde_esta",
+   "category": "ninos",
+   "icon": "🐮",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Colores y formas",
+   "slug": "colores-formas",
+   "publicName": "colores_formas",
+   "category": "ninos",
+   "icon": "🔺",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Cuenta conmigo",
+   "slug": "cuenta-conmigo",
+   "publicName": "cuenta_conmigo",
+   "category": "ninos",
+   "icon": "🔢",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Pizarra",
+   "slug": "pizarra",
+   "publicName": "pizarra",
+   "category": "ninos",
+   "icon": "✏️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Instrumentos",
+   "slug": "instrumentos",
+   "publicName": "instrumentos",
+   "category": "ninos",
+   "icon": "🎹",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Mi Banda",
+   "slug": "mi-banda",
+   "publicName": "mi_banda",
+   "category": "ninos",
+   "icon": "🎺",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Xilófono",
+   "slug": "xilofono",
+   "publicName": "xilofono",
+   "category": "ninos",
+   "icon": "🎼",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Une los puntos",
+   "slug": "une-puntos",
+   "publicName": "une_puntos",
+   "category": "ninos",
+   "icon": "✏️",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Piedra, Papel o Tijera",
+   "slug": "piedra-papel-o-tijera",
+   "publicName": "piedra_papel_o_tijera",
+   "category": "ninos",
+   "icon": "✊",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Rompecabezas",
+   "slug": "rompecabezas",
+   "publicName": "rompecabezas",
+   "category": "ninos",
+   "icon": "🧩",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Diferencias",
+   "slug": "diferencias",
+   "publicName": "diferencias",
+   "category": "ninos",
+   "icon": "🔎",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Canicas de feria",
+   "slug": "canicas",
+   "publicName": "canicas",
+   "category": "ninos",
+   "icon": "🔮",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Balero",
+   "slug": "balero",
+   "publicName": "balero",
+   "category": "tradicion",
+   "icon": "🪀",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Lanza aros",
+   "slug": "lanza-aros",
+   "publicName": "lanza_aros",
+   "category": "ninos",
+   "icon": "⭕",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Pesca de patitos",
+   "slug": "pesca-patitos",
+   "publicName": "pesca_patitos",
+   "category": "ninos",
+   "icon": "🦆",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Revienta globos",
+   "slug": "revienta-globos",
+   "publicName": "revienta_globos",
+   "category": "ninos",
+   "icon": "🎈",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Cohete de números",
+   "slug": "cohete-numeros",
+   "publicName": "cohete_numeros",
+   "category": "ninos",
+   "icon": "🚀",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Lluvia de letras",
+   "slug": "lluvia-letras",
+   "publicName": "lluvia_letras",
+   "category": "ninos",
+   "icon": "🔤",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "¿Dónde quedó la bolita?",
+   "slug": "donde-quedo-la-bolita",
+   "publicName": "donde_quedo_la_bolita",
+   "category": "ninos",
+   "icon": "🔴",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Modo Fiesta",
+   "slug": "fiesta",
+   "publicName": "fiesta",
+   "category": "tradicion",
+   "icon": "🎉",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Verdad o Reto",
+   "slug": "verdad-reto",
+   "publicName": "verdad_reto",
+   "category": "tradicion",
+   "icon": "🍾",
+   "family": "arcade",
+   "pro": false
+  },
+  {
+   "name": "Mictlania",
+   "slug": "mictlania",
+   "publicName": "mictlania",
+   "category": "uapeani",
+   "icon": "🪦",
+   "family": "uapeani",
+   "pro": true
+  },
+  {
+   "name": "Uapeania",
+   "slug": "uapeania",
+   "publicName": "uapeania",
+   "category": "uapeani",
+   "icon": "🌽",
+   "family": "uapeani",
+   "pro": true
+  },
+  {
+   "name": "UapeaniBot",
+   "slug": "uapeanibot",
+   "publicName": "uapeanibot",
+   "category": "uapeani",
+   "icon": "🤖",
+   "family": "uapeani",
+   "pro": true
+  }
+ ]
+}
