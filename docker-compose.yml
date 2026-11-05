@@ -1,0 +1,30 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD:?define SA_PASSWORD en .env}
+    ports: ["1433:1433"]
+    volumes: [sqldata:/var/opt/mssql]
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      retries: 10
+  api:
+    build: { context: ., dockerfile: src/PrayGamex.Api/Dockerfile }
+    depends_on: { db: { condition: service_healthy } }
+    environment:
+      ConnectionStrings__Default: Server=db,1433;Database=PrayGamex;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True
+      Jwt__Key: ${JWT_KEY:?define JWT_KEY (>=32 caracteres) en .env}
+      MercadoPago__AccessToken: ${MP_ACCESS_TOKEN:-}
+      MercadoPago__WebhookSecret: ${MP_WEBHOOK_SECRET:-}
+      MercadoPago__NotificationUrl: ${PUBLIC_API_URL:-}/api/payments/webhook
+      MercadoPago__BackUrl: ${PUBLIC_WEB_URL:-http://localhost:8081}/perfil/membresia
+      Cors__Origins__0: ${PUBLIC_WEB_URL:-http://localhost:8081}
+    ports: ["5080:8080"]
+  web:
+    build: ./web
+    depends_on: [api]
+    ports: ["8081:80"]
+volumes:
+  sqldata:

@@ -1,0 +1,8 @@
+bin/
+obj/
+node_modules/
+dist/
+.env
+.vs/
+*.user
+appsettings.Local.json

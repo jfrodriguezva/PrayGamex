@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PrayGamex.Api/PrayGamex.Api.csproj" />
+    <Project Path="src/PrayGamex.Application/PrayGamex.Application.csproj" />
+    <Project Path="src/PrayGamex.Domain/PrayGamex.Domain.csproj" />
+    <Project Path="src/PrayGamex.Infrastructure/PrayGamex.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PrayGamex.Tests/PrayGamex.Tests.csproj" />
+  </Folder>
+</Solution>
